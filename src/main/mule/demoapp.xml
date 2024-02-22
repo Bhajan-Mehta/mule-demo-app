@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="43f927ef-a1c2-4c15-915a-20d9552c7a40" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="demoappFlow" doc:id="b1359dc4-54e6-4da8-a4e5-678e580ce63c" >
+		<http:listener doc:name="Listener" doc:id="352ff241-2f2a-42c5-aa89-de2ae631eaf1" config-ref="HTTP_Listener_config" path="/api/test"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e7584b28-8dac-45c3-9b41-9a00ee5ae374" />
+		<ee:transform doc:name="Transform Message" doc:id="17365be2-1fbe-4333-9ab5-bd7eafd39e0f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"date" : now(),
+	"correlationId" : correlationId,
+	"message" : "Ping Pong"	
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
