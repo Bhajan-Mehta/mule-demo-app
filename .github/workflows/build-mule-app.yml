@@ -48,4 +48,4 @@ jobs:
       - name: Set Java Version
         uses: actions/setup-java@v4.0.0
         with:
-          java-vesion: 1.8
+          java-version: 1.8
